@@ -19,15 +19,14 @@ if len(sys.argv) == 1:
 regex = re.compile(r"[\w\-][\w\-\.]+@[\w\-][\w\-\.]+[a-zA-Z]{1,4}", re.IGNORECASE)
 
 domain = sys.argv[1]					# Get domain from command line
-initialUrl = domain
 
 if 'http' not in domain:				# Add protocol to string if not found
-	initialUrl = 'https://' + domain
+	domain = 'https://' + domain
 
 urlQueue 	= deque()					# Queue to track urls to visit
 urlsVisited = set()						# Set to track urls already visited
 emails 		= set()
-urlQueue.append(initialUrl)
+urlQueue.append(domain)
 browser 	= mechanize.Browser()
 
 while len(urlQueue):
@@ -47,12 +46,12 @@ while len(urlQueue):
 
 		# 2. Grab any urls & append to queue
 		# Find links by searching for <href> inside of <a>
-		print "[+] Found the following urls:"
 		for a in parsed_source.find_all('a'):
 			link = a.get('href')
-			if domain in link:			# Only accept links within given domain
-				if 'http' not in link:
-					link = 'http://' + link
+
+			if 'http' not in link:		# Account for relative links
+				link = domain + link
+			elif domain in link:		# Only accept links within given domain
 				urlQueue.append(link)
 
 		#  TODO: how do I tell if the link is valid???

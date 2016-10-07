@@ -2,6 +2,12 @@
 Script for scraping all discoverable websites on a domain for email addresses
 Usage: python find_email_addresses.py <domain>
 
+How it works:
+- Given a domain, it searches the page for emails and add it to a list of emails
+- Then, it searches the page of links within the href attribution within <a> tags
+- It cleans up the links, adds it to a queue, and repeats from step one with every link
+- Once the queue is empty, all emails found will outputted
+
 Created by Vincent Tran, 10/7/2016
 '''
 
@@ -59,7 +65,6 @@ def scrapeEmails(domain, regex):
 
 			emails.update(grabEmails(parsed_source.get_text())) # Grab emails
 			urlQueue.extend(grabLinks(parsed_source, domain))	# Grab urls and add to queue
-		
 		except:
 			pass
 
@@ -91,4 +96,3 @@ if __name__ == "__main__":
 		print "[+] Found the following emails:"
 		for email in emails:
 			print "	" + email
-

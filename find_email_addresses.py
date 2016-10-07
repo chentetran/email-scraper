@@ -5,24 +5,24 @@ Usage: python find_email_addresses.py <domain>
 
 import sys
 import mechanize
+import re
 
-# Get domain from command line
 if len(sys.argv) == 1:
 	print "Usage: python find_email_addresses.py <domain>"
 	exit()
 
-domain = sys.argv[1]
-if 'http' not in domain:
-	domain = 'http://' + domain
-print domain
+regex = re.compile(r"[\w\.-]+@[\w\.-]+")
+
+domain = sys.argv[1]					# Get domain from command line
+if 'http' not in domain:				# Add protocol to string if not found
+	domain = 'https://' + domain
 
 browser = mechanize.Browser()
-
-
 page = browser.open(domain)
 source_code = page.read()
-print source_code
 
+emails = set(re.findall(regex, source_code)) # Remove duplicates using set
+print list(emails)
 
 
 

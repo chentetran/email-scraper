@@ -21,8 +21,8 @@ browser = mechanize.Browser()
 page = browser.open(domain)
 source_code = page.read()
 
-emails = set(re.findall(regex, source_code)) # Remove duplicates using set
-print list(emails)
+emails = list(set(re.findall(regex, source_code))) # Remove duplicates using set
+print emails
 
 
 

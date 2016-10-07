@@ -8,6 +8,9 @@ Python script; takes a domain name and prints out any emails found on the domain
  4. Inside the cloned repo, run `python find_email_addresses.py <domain>`, where <domain> is a url, like 'google.com'. It's even better if you include the protocol, ie 'https://google.com'.
  5. Profit
 
+## Example use:
+I've created a test website to show this email scraper's ability. You can check out the website at [chentetran.github.io/email-scraper]. Other popular websites may not work because of redirects or a robots.txt ban (errors because of these are silenced).
+
 
 ## Libraries used:
  - BeautifulSoup

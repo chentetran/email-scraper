@@ -19,6 +19,8 @@ if len(sys.argv) == 1:
 regex = re.compile(r"[\w\-][\w\-\.]+@[\w\-][\w\-\.]+[a-zA-Z]{1,4}", re.IGNORECASE)
 
 domain = sys.argv[1]					# Get domain from command line
+initialUrl = domain
+
 if 'http' not in domain:				# Add protocol to string if not found
 	initialUrl = 'https://' + domain
 

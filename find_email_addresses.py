@@ -22,6 +22,7 @@ domain = sys.argv[1]					# Get domain from command line
 
 if 'http' not in domain:				# Add protocol to string if not found
 	domain = 'https://' + domain
+domain += '/'
 
 urlQueue 	= deque()					# Queue to track urls to visit
 urlsVisited = set()						# Set to track urls already visited
@@ -50,8 +51,8 @@ while len(urlQueue):
 
 			if 'http' not in link:		# Account for relative links
 				link = domain + link
-			elif domain in link:		# Only accept links within given domain
-				urlQueue.append(link)
+			if domain in link:		# Only accept links within given domain
+				urlQueue.append(link)	
 	except:
 		pass
 
@@ -62,5 +63,5 @@ if len(emails) == 0:
 else:
 	print "[+] Found the following emails:"
 	for email in list(emails):
-		print "[+] " + email
+		print "	" + email
 

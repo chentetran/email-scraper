@@ -15,7 +15,8 @@ if len(sys.argv) == 1:
 	print "Usage: python find_email_addresses.py <domain>"
 	exit()
 
-regex = re.compile(r"[\w\.-]+@[\w\.-]+")
+# Regex taken from http://code.activestate.com/recipes/138889-extract-email-addresses-from-files/
+regex = re.compile(r"[\w\-][\w\-\.]+@[\w\-][\w\-\.]+[a-zA-Z]{1,4}", re.IGNORECASE)
 
 domain = sys.argv[1]					# Get domain from command line
 if 'http' not in domain:				# Add protocol to string if not found
@@ -28,6 +29,8 @@ urlQueue.append(domain)
 browser 	= mechanize.Browser()
 
 while len(urlQueue):
+	print "[*] Trying "
+
 	# 0. Get source code & parse
 	try:
 		page 		= browser.open(urlQueue[0])
@@ -44,7 +47,6 @@ while len(urlQueue):
 			if 'http' not in link:
 				link = 'http://' + link
 			urlQueue.append(link)
-			print link
 
 		#  TODO: should check that its on the domain
 		#  TODO: how do I tell if the link is valid???
@@ -53,11 +55,10 @@ while len(urlQueue):
 
 	urlsVisited.add(urlQueue.popleft())
 
-	
-
-	print "hi!"
-
-
-for email in list(emails):
-	print email
+if len(emails) == 0:
+	print "[-] No emails found"
+else:
+	print "[+] Found the following emails:"
+	for email in list(emails):
+		print email
 

@@ -25,21 +25,38 @@ urlQueue 	= deque()					# Queue to track urls to visit
 urlsVisited = set()						# Set to track urls already visited
 emails 		= set()
 urlQueue.append(domain)
+browser 	= mechanize.Browser()
 
 while len(urlQueue):
 	# 0. Get source code & parse
-	browser = mechanize.Browser()
-	page = browser.open(domain)
-	source_code = page.read()
-	source_text = BeautifulSoup(source_code, "html.parser").get_text()
+	try:
+		page 		= browser.open(urlQueue[0])
+		source_code = page.read()
+		parsed_source = BeautifulSoup(source_code, "html.parser")
 
-	# 1. Grab emails from page @ front of queue 
-	emails.update(re.findall(regex, source_text))
+		# 1. Grab emails from page @ front of queue 
+		emails.update(re.findall(regex, parsed_source.get_text()))
 
-	# 2. Grab any urls (TODO: should check that its on the domain)
-	urlQueue.extend()
+		# 2. Grab any urls & append to queue
+		# Find links by searching for <href> inside of <a>
+		for a in parsed_source.find_all('a'):
+			link = a.get('href')
+			if 'http' not in link:
+				link = 'http://' + link
+			urlQueue.append(link)
+			print link
 
-	# 3. Add urls to queue
+		#  TODO: should check that its on the domain
+		#  TODO: how do I tell if the link is valid???
+	except:
+		pass
+
+	urlsVisited.add(urlQueue.popleft())
+
+	
+
+	print "hi!"
+
 
 for email in list(emails):
 	print email

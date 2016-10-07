@@ -53,8 +53,6 @@ while len(urlQueue):
 				link = domain + link
 			elif domain in link:		# Only accept links within given domain
 				urlQueue.append(link)
-
-		#  TODO: how do I tell if the link is valid???
 	except:
 		pass
 

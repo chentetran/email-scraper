@@ -33,7 +33,6 @@ while len(urlQueue):
 	url = urlQueue.popleft()
 	if url in urlsVisited:				# Already visited, skip
 		continue
-	print "[*] Trying link: " + url
 
 	# 0. Get source code & parse
 	try:

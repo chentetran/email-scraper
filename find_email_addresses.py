@@ -47,6 +47,7 @@ while len(urlQueue):
 
 		# 2. Grab any urls & append to queue
 		# Find links by searching for <href> inside of <a>
+		print "[+] Found the following urls:"
 		for a in parsed_source.find_all('a'):
 			link = a.get('href')
 			if domain in link:			# Only accept links within given domain
@@ -65,5 +66,5 @@ if len(emails) == 0:
 else:
 	print "[+] Found the following emails:"
 	for email in list(emails):
-		print email
+		print "[+] " + email
 
